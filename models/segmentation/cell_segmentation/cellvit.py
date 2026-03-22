@@ -578,6 +578,9 @@ class CellViTSAM(CellViT):
             model_path (str): Path to SAM model
         """
         state_dict = torch.load(str(model_path), map_location="cpu")
+        # Strip image_encoder. prefix from SAM checkpoint keys
+        if any(k.startswith("image_encoder.") for k in state_dict.keys()):
+            state_dict = {k.replace("image_encoder.", ""): v for k, v in state_dict.items() if k.startswith("image_encoder.")}
         image_encoder = self.encoder
         msg = image_encoder.load_state_dict(state_dict, strict=False)
         print(f"Loading checkpoint: {msg}")

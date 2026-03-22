@@ -753,7 +753,7 @@ class ExperimentCellVitPanNuke(BaseExperiment):
             if p > 0 and p <= 1:
                 transform_list.append(
                     A.RandomSizedCrop(
-                        min_max_height=(input_shape / 2, input_shape),
+                        min_max_height=(int(input_shape // 2), int(input_shape)),
                         height=input_shape,
                         width=input_shape,
                         p=p,
